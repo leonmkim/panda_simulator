@@ -3,7 +3,7 @@
 
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
   <arg name="load_gripper" default="false"/> 
-  <arg name="load_peg" default="false"/> 
+  <arg name="load_peg" default="true"/> 
   <arg name="use_custom_action_servers" default="true"/>
   <arg name="start_moveit" default="false"/>
   <arg name="load_demo_planning_scene" default="false"/>
@@ -43,7 +43,6 @@
 
   <param name="/arm/root_name" value="panda_link0" />
 
-  <!-- TODO change this to incorporate peg!!! -->
   <param unless="$(arg load_gripper)" name="/arm/tip_name" value="panda_link8" /> 
 
   <param if="$(arg load_peg)" name="/arm/tip_name" value="panda_peg" /> 
@@ -109,4 +108,6 @@
       <node pkg="panda_gazebo" type="force_neutral_pose.py" name="startup_script"/>
   </group>   
 
+  <!-- spawn the static hole  -->
+  <node if="$(arg load_peg)" pkg="gazebo_ros" type="spawn_model" name="spawn_hole" args="-file $(find franka_panda_description)/robots/hole.urdf -urdf -x 0.5 -y 0 -z 0 -model hole" />
 </launch>
