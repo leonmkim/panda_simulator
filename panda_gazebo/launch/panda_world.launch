@@ -3,7 +3,7 @@
 
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
   <arg name="load_gripper" default="false"/> 
-  <arg name="load_peg" default="true"/> 
+  <arg name="load_peg" default="false"/> 
   <arg name="use_custom_action_servers" default="true"/>
   <arg name="start_moveit" default="false"/>
   <arg name="load_demo_planning_scene" default="false"/>
@@ -37,10 +37,13 @@
 
   <rosparam command="load" file="$(find panda_gazebo)/config/robot_details.yaml"/>
 
+  <param name="robot_description" command="$(find xacro)/xacro $(find franka_panda_description)/robots/panda_arm_hand_peg.urdf.xacro load_gazebo:=$(arg load_gazebo) load_gripper:=$(arg load_gripper) load_peg:=$(arg load_peg)"/>
+  <!-- <param name="robot_description" command="$(find xacro)/xacro $(find franka_panda_description)/robots/panda_arm_hand.urdf.xacro load_gripper:=$(arg load_gripper) load_gazebo:=$(arg load_gazebo)"/> -->
+  <!-- <param if="$(arg load_peg)" name="robot_description" command="$(find xacro)/xacro $(find franka_panda_description)/robots/panda_arm_hand_peg.urdf.xacro load_gazebo:=$(arg load_gazebo)"/> -->
+  <!-- <param unless="$(arg load_peg)" name="robot_description" command="$(find xacro)/xacro $(find franka_panda_description)/robots/panda_arm_hand.urdf.xacro load_gripper:=$(arg load_gripper) load_gazebo:=$(arg load_gazebo)"/> -->
 
-  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find franka_panda_description)/robots/panda_arm_hand_peg.urdf.xacro load_gazebo:=$(arg load_gazebo)"/>
 
-
+  <!-- assign frames -->
   <param name="/arm/root_name" value="panda_link0" />
 
   <param unless="$(arg load_gripper)" name="/arm/tip_name" value="panda_link8" /> 
@@ -56,6 +59,8 @@
   <!-- <param unless="$(arg load_peg)" name="/arm/gravity_tip_name" value="panda_link8" />  -->
 
   <param if="$(arg load_gripper)" name="/arm/gravity_tip_name" value="panda_hand" /> 
+
+
 
   <param if="$(arg load_gripper)" name="/franka_gripper/robot_ip" value="sim" /> 
 

@@ -73,7 +73,9 @@ P_pos = 50.
 P_ori = 25.
 # damping gains
 D_pos = 10.
-D_ori = 1.
+# D_ori = 1.
+D_ori = 1.0
+
 # -----------------------------------------
 publish_rate = 100
 
@@ -163,7 +165,8 @@ if __name__ == "__main__":
 
     # global goal_pos, goal_ori, ctrl_thread
 
-    rospy.init_node("ts_control_sim_only")
+    # rospy.init_node("ts_control_sim_only")
+    rospy.init_node("ts_control_fri")
 
     # when using franka_ros_interface, the robot can be controlled through and
     # the robot state is directly accessible with the API
